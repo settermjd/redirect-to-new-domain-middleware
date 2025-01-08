@@ -17,6 +17,7 @@
         "rss": "https://github.com/settermjd/redirect-to-new-domain-middleware/releases.atom"
     },
     "require": {
+        "laminas/laminas-component-installer": "^3.5",
         "laminas/laminas-diactoros": "^3.5",
         "psr/http-server-handler": "^1.0",
         "psr/http-server-middleware": "^1.0",
@@ -52,7 +53,8 @@
     },
     "config": {
         "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": true
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "laminas/laminas-component-installer": true
         },
         "sort-packages": true
     }

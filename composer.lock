@@ -4,8 +4,75 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7dc569b7580b0e69ad79c8b1cf80460d",
+    "content-hash": "9df6952b110db71595991f820d2b5c19",
     "packages": [
+        {
+            "name": "laminas/laminas-component-installer",
+            "version": "3.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laminas/laminas-component-installer.git",
+                "reference": "8752d73b5df8c368ec0bf2aff2b32e00e0ac8b1b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laminas/laminas-component-installer/zipball/8752d73b5df8c368ec0bf2aff2b32e00e0ac8b1b",
+                "reference": "8752d73b5df8c368ec0bf2aff2b32e00e0ac8b1b",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^2.0",
+                "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0"
+            },
+            "conflict": {
+                "zendframework/zend-component-installer": "*"
+            },
+            "require-dev": {
+                "composer/composer": "^2.7.7",
+                "laminas/laminas-coding-standard": "~3.0.0",
+                "mikey179/vfsstream": "^1.6.11",
+                "phpunit/phpunit": "^10.5.35",
+                "psalm/plugin-phpunit": "^0.19.0",
+                "vimeo/psalm": "^5.24.0",
+                "webmozart/assert": "^1.11.0"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "Laminas\\ComponentInstaller\\ComponentInstaller"
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laminas\\ComponentInstaller\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Composer plugin for injecting modules and configuration providers into application configuration",
+            "homepage": "https://laminas.dev",
+            "keywords": [
+                "component installer",
+                "composer",
+                "laminas",
+                "plugin"
+            ],
+            "support": {
+                "chat": "https://laminas.dev/chat",
+                "docs": "https://docs.laminas.dev/laminas-component-installer/",
+                "forum": "https://discourse.laminas.dev",
+                "issues": "https://github.com/laminas/laminas-component-installer/issues",
+                "rss": "https://github.com/laminas/laminas-component-installer/releases.atom",
+                "source": "https://github.com/laminas/laminas-component-installer"
+            },
+            "funding": [
+                {
+                    "url": "https://funding.communitybridge.org/projects/laminas-project",
+                    "type": "community_bridge"
+                }
+            ],
+            "time": "2024-11-26T14:11:43+00:00"
+        },
         {
             "name": "laminas/laminas-diactoros",
             "version": "3.5.0",
