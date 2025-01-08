@@ -6,9 +6,6 @@ namespace Settermjd\MiddlewareTest;
 
 use Laminas\Diactoros\Response\EmptyResponse;
 use Laminas\Diactoros\Response\RedirectResponse;
-use Monolog\Handler\StreamHandler;
-use Monolog\Level;
-use Monolog\Logger;
 use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
@@ -17,13 +14,15 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LoggerInterface;
 use Settermjd\Middleware\RedirectToNewDomainMiddleware;
 
+use function sprintf;
+
 class RedirectToNewDomainMiddlewareTest extends TestCase
 {
     #[TestWith(['deploywithdockercompose.com'])]
     public function testRedirectsToNewDomainIfRequestComesFromOldDomain(string $requestedDomain): void
     {
         $invokedCount = $this->exactly(2);
-        $log = $this->createMock(LoggerInterface::class);
+        $log          = $this->createMock(LoggerInterface::class);
         $log
             ->expects($invokedCount)
             ->method("debug")
@@ -35,9 +34,9 @@ class RedirectToNewDomainMiddlewareTest extends TestCase
                     if ($invokedCount->numberOfInvocations() === 2) {
                         $this->assertSame(
                             sprintf(
-                                "redirecting to: %s", 
+                                "redirecting to: %s",
                                 "https://deploywithdockercompose.webdevwithmatt.com/"
-                            ), 
+                            ),
                             $parameters
                         );
                     }

@@ -26,7 +26,8 @@ final readonly class RedirectToNewDomainMiddleware implements MiddlewareInterfac
         private string $oldDomain,
         private string $newDomain,
         private ?LoggerInterface $logger = null
-    ) {}
+    ) {
+    }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
