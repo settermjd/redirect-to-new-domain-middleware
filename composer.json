@@ -57,5 +57,10 @@
             "laminas/laminas-component-installer": true
         },
         "sort-packages": true
+    },
+    "extra": {
+        "laminas": {
+            "config-provider": "Settermjd\\Middleware\\ConfigProvider"
+        }
     }
 }
