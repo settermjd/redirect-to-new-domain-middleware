@@ -13,6 +13,13 @@ use Psr\Log\LoggerInterface;
 
 use function sprintf;
 
+/**
+ * RedirectToNewDomainMiddleware performs a 301 redirect the current request
+ * from one domain (oldDomain) to another (newDomain) if the current request is
+ * for the old domain. It is designed to simplify moving sites from one domain
+ * to another, especially in cases where the hosting provider does not provide
+ * this functionality natively.
+ */
 final readonly class RedirectToNewDomainMiddleware implements MiddlewareInterface
 {
     public function __construct(
