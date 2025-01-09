@@ -44,11 +44,16 @@
     "scripts": {
         "cs-check": "vendor/bin/phpcs",
         "cs-fix": "vendor/bin/phpcbf",
+        "qa": [
+            "@cs-check",
+            "@test"
+        ],
         "test": "vendor/bin/phpunit"
     },
     "scripts-descriptions": {
         "cs-check": "Run coding standards checks.",
         "cs-fix": "Automatically fix coding standard issues.",
+        "qa": "Run all quality assurance checks on the code",
         "test": "Run unit tests."
     },
     "config": {
