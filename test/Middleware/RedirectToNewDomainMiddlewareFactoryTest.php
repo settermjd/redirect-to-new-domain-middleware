@@ -7,6 +7,7 @@ namespace Settermjd\MiddlewareTest;
 use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 use Settermjd\Middleware\Exception\InvalidConfigurationException;
 use Settermjd\Middleware\RedirectToNewDomainMiddleware;
 use Settermjd\Middleware\RedirectToNewDomainMiddlewareFactory;
@@ -23,16 +24,18 @@ class RedirectToNewDomainMiddlewareFactoryTest extends TestCase
             ->with("config")
             ->willReturn(true);
         $container
-            ->expects($this->once())
+            ->expects($this->atMost(2))
             ->method("get")
-            ->with("config")
-            ->willReturn([
-                "redirect-to-new-domain-middleware" => [
-                    "old"    => "deploywithdockercompose.com",
-                    "new"    => "https://deploywithdockercompose.webdevwithmatt.com",
-                    "status" => 301,
+            ->willReturnOnConsecutiveCalls(
+                [
+                    "redirect-to-new-domain-middleware" => [
+                        "old"    => "deploywithdockercompose.com",
+                        "new"    => "https://deploywithdockercompose.webdevwithmatt.com",
+                        "status" => 301,
+                    ],
                 ],
-            ]);
+                $this->createMock(LoggerInterface::class),
+            );
         $middleware = $factory($container);
 
         self::assertInstanceOf(RedirectToNewDomainMiddleware::class, $middleware);

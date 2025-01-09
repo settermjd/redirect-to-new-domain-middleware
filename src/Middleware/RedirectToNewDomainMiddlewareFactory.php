@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Settermjd\Middleware;
 
 use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 use Settermjd\Middleware\Exception\InvalidConfigurationException;
 
 /**
@@ -37,6 +38,7 @@ final readonly class RedirectToNewDomainMiddlewareFactory
             oldDomain: $oldDomain,
             newDomain: $newDomain,
             redirectStatus: $redirectStatus,
+            logger: $container->get(LoggerInterface::class) ?? null
         );
     }
 }
