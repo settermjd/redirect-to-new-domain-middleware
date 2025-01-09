@@ -32,12 +32,13 @@ final readonly class RedirectToNewDomainMiddleware implements MiddlewareInterfac
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $this->logger
-            ?->debug(sprintf("received request from host: %s", $request->getUri()->getHost()));
+            ?->debug(sprintf("received request from host: %s", (string) $request->getUri()));
 
         if ($request->getUri()->getHost() === $this->oldDomain) {
+            $newRequestUri = $request->getUri()->withHost($this->newDomain);
             $this->logger
-                ?->debug(sprintf("redirecting to: %s", $this->newDomain));
-            return new RedirectResponse($this->newDomain, 301);
+                ?->debug(sprintf("redirecting to: %s", $newRequestUri));
+            return new RedirectResponse($newRequestUri, 301);
         }
 
         return $handler->handle($request);
