@@ -28,8 +28,9 @@ class RedirectToNewDomainMiddlewareFactoryTest extends TestCase
             ->with("config")
             ->willReturn([
                 "redirect-to-new-domain-middleware" => [
-                    "old" => "deploywithdockercompose.com",
-                    "new" => "https://deploywithdockercompose.webdevwithmatt.com",
+                    "old"    => "deploywithdockercompose.com",
+                    "new"    => "https://deploywithdockercompose.webdevwithmatt.com",
+                    "status" => 301,
                 ],
             ]);
         $middleware = $factory($container);

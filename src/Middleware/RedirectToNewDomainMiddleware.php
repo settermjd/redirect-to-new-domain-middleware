@@ -11,6 +11,7 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LoggerInterface;
 
+use function in_array;
 use function sprintf;
 
 /**
@@ -22,22 +23,28 @@ use function sprintf;
  */
 final readonly class RedirectToNewDomainMiddleware implements MiddlewareInterface
 {
+    public const int DEFAULT_STATUS = 301;
+
     public function __construct(
         /**
          * This is the host portion of the route that was originally requested, e.g., deploywithdockercompose.com, hollows.org, or rspca.org.au.
          */
         private string $oldDomain,
-
         /**
          * This is the host portion of the route that the request will be redirected to, e.g., asrc.org.au, wwf.org.au, or blackdoginstitute.org.au.
          */
         private string $newDomain,
-
+        /**
+         * The status code to redirect with.
+         * Allowed values are 301 and 302.
+         */
+        private int $redirectStatus = self::DEFAULT_STATUS,
         /**
          * If you want to perform basic instrumentation, provide this parameter.
          */
         private ?LoggerInterface $logger = null
-    ) {}
+    ) {
+    }
 
     /**
      * process checks the host portion of the current request. If it matches the
@@ -53,7 +60,12 @@ final readonly class RedirectToNewDomainMiddleware implements MiddlewareInterfac
             $newRequestUri = $request->getUri()->withHost($this->newDomain);
             $this->logger
                 ?->debug(sprintf("redirecting to: %s", $newRequestUri));
-            return new RedirectResponse($newRequestUri, 301);
+            return new RedirectResponse(
+                $newRequestUri,
+                ! in_array($this->redirectStatus, [301, 302])
+                    ? self::DEFAULT_STATUS
+                    : $this->redirectStatus
+            );
         }
 
         return $handler->handle($request);

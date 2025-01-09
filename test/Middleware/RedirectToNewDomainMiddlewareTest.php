@@ -72,7 +72,11 @@ class RedirectToNewDomainMiddlewareTest extends TestCase
                 }
             );
 
-        $middleware = new RedirectToNewDomainMiddleware($this->oldDomain, $this->newDomain, $log);
+        $middleware = new RedirectToNewDomainMiddleware(
+            oldDomain: $this->oldDomain,
+            newDomain: $this->newDomain,
+            logger: $log,
+        );
 
         $uri      = new Uri($originalRequest);
         $request  = $this->createConfiguredStub(
@@ -95,7 +99,10 @@ class RedirectToNewDomainMiddlewareTest extends TestCase
     #[TestWith(['https://example.org'])]
     public function testDoesNotRedirectToNewDomainIfRequestDoesNotComeFromOldDomain(string $originalRequest): void
     {
-        $middleware = new RedirectToNewDomainMiddleware($this->oldDomain, $this->newDomain);
+        $middleware = new RedirectToNewDomainMiddleware(
+            oldDomain: $this->oldDomain,
+            newDomain: $this->newDomain,
+        );
 
         $uri     = new Uri($originalRequest);
         $request = $this->createConfiguredStub(
@@ -131,7 +138,11 @@ class RedirectToNewDomainMiddlewareTest extends TestCase
                 sprintf("received request from host: %s", $originalRequest)
             );
 
-        $middleware = new RedirectToNewDomainMiddleware($this->oldDomain, $this->newDomain, $log);
+        $middleware = new RedirectToNewDomainMiddleware(
+            oldDomain: $this->oldDomain,
+            newDomain: $this->newDomain,
+            logger: $log,
+        );
 
         $uri     = new Uri($originalRequest);
         $request = $this->createConfiguredStub(ServerRequestInterface::class, [
@@ -144,5 +155,26 @@ class RedirectToNewDomainMiddlewareTest extends TestCase
             ->willReturn(new EmptyResponse());
 
         $middleware->process($request, $handler);
+    }
+
+    #[TestWith([301, 301])]
+    #[TestWith([302, 302])]
+    #[TestWith([303, 301])]
+    public function testCanSetRedirectStatusCodeTo301Or302(int $desiredStatus, int $actualStatus): void
+    {
+        $middleware = new RedirectToNewDomainMiddleware(
+            oldDomain: $this->oldDomain,
+            newDomain: $this->newDomain,
+            redirectStatus: $desiredStatus,
+        );
+
+        $uri     = new Uri("https://deploywithdockercompose.com/api/ping?display=dark");
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request
+            ->method("getUri")
+            ->willReturn($uri);
+        $response = $middleware->process($request, $this->createMock(RequestHandlerInterface::class));
+
+        self::assertSame($actualStatus, $response->getStatusCode());
     }
 }
