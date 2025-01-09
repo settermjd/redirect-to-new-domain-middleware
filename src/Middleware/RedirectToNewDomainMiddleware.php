@@ -27,11 +27,14 @@ final readonly class RedirectToNewDomainMiddleware implements MiddlewareInterfac
 
     public function __construct(
         /**
-         * This is the host portion of the route that was originally requested, e.g., deploywithdockercompose.com, hollows.org, or rspca.org.au.
+         * This is the host portion of the route that was originally requested,
+         * e.g., deploywithdockercompose.com, hollows.org, or rspca.org.au.
          */
         private string $oldDomain,
         /**
-         * This is the host portion of the route that the request will be redirected to, e.g., asrc.org.au, wwf.org.au, or blackdoginstitute.org.au.
+         * This is the host portion of the route that the request will be
+         * redirected to, e.g., asrc.org.au, wwf.org.au, or
+         * blackdoginstitute.org.au.
          */
         private string $newDomain,
         /**
