@@ -27,6 +27,7 @@
         "friendsofphp/php-cs-fixer": "^3.66",
         "laminas/laminas-coding-standard": "^3.0",
         "monolog/monolog": "^3.8",
+        "phpstan/phpstan": "^2.1",
         "phpstan/phpstan-phpunit": "^2.0",
         "phpunit/phpunit": "^11.5",
         "squizlabs/php_codesniffer": "^3.11"
@@ -46,14 +47,17 @@
         "cs-fix": "vendor/bin/phpcbf",
         "qa": [
             "@cs-check",
+            "@static-analysis",
             "@test"
         ],
+        "static-analysis": "vendor/bin/phpstan analyse src test",
         "test": "vendor/bin/phpunit"
     },
     "scripts-descriptions": {
         "cs-check": "Run coding standards checks.",
         "cs-fix": "Automatically fix coding standard issues.",
         "qa": "Run all quality assurance checks on the code",
+        "static-analysis": "Run PHPStan to statically analyse the code",
         "test": "Run unit tests."
     },
     "config": {
