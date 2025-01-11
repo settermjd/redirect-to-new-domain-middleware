@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Settermjd\Middleware;
 
+use Fig\Http\Message\StatusCodeInterface;
 use Laminas\Diactoros\Response\RedirectResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -23,7 +24,7 @@ use function sprintf;
  */
 final readonly class RedirectToNewDomainMiddleware implements MiddlewareInterface
 {
-    public const int DEFAULT_STATUS = 301;
+    public const int DEFAULT_STATUS = StatusCodeInterface::STATUS_MOVED_PERMANENTLY;
 
     public function __construct(
         /**
@@ -65,9 +66,11 @@ final readonly class RedirectToNewDomainMiddleware implements MiddlewareInterfac
                 ?->debug(sprintf("redirecting to: %s", $newRequestUri));
             return new RedirectResponse(
                 $newRequestUri,
-                ! in_array($this->redirectStatus, [301, 302])
-                    ? self::DEFAULT_STATUS
-                    : $this->redirectStatus
+                ! in_array($this->redirectStatus, [
+                    StatusCodeInterface::STATUS_MOVED_PERMANENTLY,
+                    StatusCodeInterface::STATUS_FOUND,
+                ]) ? self::DEFAULT_STATUS
+                   : $this->redirectStatus
             );
         }
 

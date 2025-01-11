@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Settermjd\MiddlewareTest;
 
+use Fig\Http\Message\StatusCodeInterface;
 use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -31,7 +32,7 @@ class RedirectToNewDomainMiddlewareFactoryTest extends TestCase
                     "redirect-to-new-domain-middleware" => [
                         "old"    => "deploywithdockercompose.com",
                         "new"    => "https://deploywithdockercompose.webdevwithmatt.com",
-                        "status" => 301,
+                        "status" => StatusCodeInterface::STATUS_MOVED_PERMANENTLY,
                     ],
                 ],
                 $this->createMock(LoggerInterface::class),

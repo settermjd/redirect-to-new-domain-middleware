@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Settermjd\MiddlewareTest;
 
+use Fig\Http\Message\StatusCodeInterface;
 use Laminas\Diactoros\Response\EmptyResponse;
 use Laminas\Diactoros\Response\RedirectResponse;
 use Laminas\Diactoros\Uri;
@@ -89,7 +90,7 @@ class RedirectToNewDomainMiddlewareTest extends TestCase
 
         self::assertInstanceOf(RedirectResponse::class, $response);
         self::assertSame($newRequest, $response->getHeaderLine("location"));
-        self::assertSame(301, $response->getStatusCode());
+        self::assertSame(StatusCodeInterface::STATUS_MOVED_PERMANENTLY, $response->getStatusCode());
     }
 
     #[TestWith(['https://deploywithdockercompose.webdevwithmatt.com'])]
@@ -157,9 +158,18 @@ class RedirectToNewDomainMiddlewareTest extends TestCase
         $middleware->process($request, $handler);
     }
 
-    #[TestWith([301, 301])]
-    #[TestWith([302, 302])]
-    #[TestWith([303, 301])]
+    #[TestWith([
+        StatusCodeInterface::STATUS_MOVED_PERMANENTLY,
+        StatusCodeInterface::STATUS_MOVED_PERMANENTLY,
+    ])]
+    #[TestWith([
+        StatusCodeInterface::STATUS_FOUND,
+        StatusCodeInterface::STATUS_FOUND,
+    ])]
+    #[TestWith([
+        StatusCodeInterface::STATUS_SEE_OTHER,
+        StatusCodeInterface::STATUS_MOVED_PERMANENTLY,
+    ])]
     public function testCanSetRedirectStatusCodeTo301Or302(int $desiredStatus, int $actualStatus): void
     {
         $middleware = new RedirectToNewDomainMiddleware(

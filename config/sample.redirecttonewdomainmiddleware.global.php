@@ -1,5 +1,7 @@
 <?php
 
+use Fig\Http\Message\StatusCodeInterface;
+
 return [
     "redirect-to-new-domain-middleware" => [
         /**
@@ -18,6 +20,6 @@ return [
          * This is the type of redirect, which can be set to either 301 (the
          * default) or 302.
          */
-        "status" => 301,
+        "status" => StatusCodeInterface::STATUS_MOVED_PERMANENTLY,
     ],
 ];
