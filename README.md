@@ -7,18 +7,7 @@ This is a small piece of [PSR-15 (HTTP Server Request Handlers)][psr-15] middlew
 
 To use the package, you'll need the following:
 
-- PHP 8.3 or above with the following extensions
-  - ext-ctype
-  - ext-dom
-  - ext-filter
-  - ext-json
-  - ext-libxml
-  - ext-mbstring
-  - ext-phar
-  - ext-simplexml
-  - ext-tokenizer
-  - ext-xml
-  - ext-xmlwriter
+- PHP 8.3
 
 ## Getting Started
 
